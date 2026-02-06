@@ -1,11 +1,10 @@
+from cProfile import label
 from nicegui import ui
 import asyncio
 import websockets
 import threading
 
-## ¿Qué es un Web Socket?
-## ¿Qué es Async y Await?
-## async tiene la funcion de ser asincrona y await espera a que se complete una tarea asincrona
+
 
 data = {'pot_value': '0', 'led_status': 'OFF'} 
 esp32_socket = None
@@ -47,4 +46,8 @@ def ui_update():
         #led
         ui.label(f'LED: {data["led_status"]}').classes('text-h3')
         ui.button('Cambiar LED', on_click=toggle_led).props('elevated')
-
+@ui.page('/')
+def index():
+    ui.label('Dashboard IoT: NiceGUI + MicroPython').classes('text-h4 q-mb-md')
+    ui_update()
+ui.run(host="0.0.0.0", port=8080, title="Control ESP32")
